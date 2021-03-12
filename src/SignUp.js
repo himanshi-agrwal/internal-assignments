@@ -5,13 +5,16 @@ import FormElement from "./FormElement";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [waitingForCode, setWaitingForCode] = useState(false);
   const [code, setCode] = useState("");
 
   const signUp = (e) => {
     e.preventDefault();
     
-    Auth.signUp({ username: email, password, attributes: { email } })
+    Auth.signUp({ username: email, password, 
+        attributes: { email, 'custom:firstName': firstName, 'custom:lastName': lastName } })
       .then((data) => {
         console.log(data);
         setWaitingForCode(true);
@@ -30,6 +33,8 @@ const SignUp = () => {
         console.log(data);
         setWaitingForCode(false);
         setEmail("");
+        setFirstName("");
+        setLastName("");
         setCode("");
       })
       .catch((err) => console.log(err));
@@ -66,6 +71,24 @@ const SignUp = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="password"
+            />
+          </FormElement>
+          <FormElement label="First Name" forId="sign-up-email">
+            <input
+              id="sign-up-first-name"
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First name"
+            />
+          </FormElement>
+          <FormElement label="Last Name" forId="sign-up-email">
+            <input
+              id="sign-up-last-name"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last name"
             />
           </FormElement>
           <button type="submit" onClick={signUp}>
