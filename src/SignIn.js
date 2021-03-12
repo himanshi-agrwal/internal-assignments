@@ -25,30 +25,25 @@ const SignIn = () => {
 
   return (
     <div className="form">
-      <h3>Sign In</h3>
-      <form>
-        <FormElement label="Email" forId="sign-in-email">
-          <input
-            id="sign-in-email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="email"
-          />
-        </FormElement>
-        <FormElement label="Password" forId="sign-in-password">
-          <input
-            id="sign-in-password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="password"
-          />
-        </FormElement>
-        <button type="submit" onClick={signIn}>
-          Sign In
-        </button>
-      </form>
+        <form>
+                <h3>Sign In</h3>
+
+                <div className="form-group">
+                    <label>Email address</label>
+                    <input type="email" className="form-control" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)}/>
+                </div>
+
+                <div className="form-group">
+                    <label>Password</label>
+                    <input type="password" className="form-control" placeholder="Enter password" onChange={(e) => setPassword(e.target.value)}/>
+                </div>
+
+                <button type="submit" className="btn btn-primary btn-block" onClick={signIn}>Submit</button>
+                <p className="forgot-password text-right">
+                    Not registered <a href="/sign-up">Sign Up?</a>
+                </p>
+            </form>
+
     </div>
   );
 };

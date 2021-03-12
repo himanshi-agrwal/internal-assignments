@@ -1,11 +1,38 @@
 import React, { useEffect } from "react";
 import Amplify from "aws-amplify";
-import logo from "./logo.svg";
+
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import "./App.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-const App = () => {
+
+// const App = () => {
+  // useEffect(() => {
+  //   Amplify.configure({
+  //     Auth: {
+  //       region: process.env.REACT_APP_REGION,
+  //       userPoolId: process.env.REACT_APP_USER_POOL_ID,
+  //       userPoolWebClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID,
+  //     },
+  //   });
+  // });
+
+//   return (
+//     <div className="App">
+//       <header className="App-header">
+//         <h1>Profile Management</h1>
+//         <h2>Authentication for Profile Management using AWS Cognito</h2>
+//       </header>
+//       <SignUp />
+//       <SignIn />
+//     </div>
+//   );
+// };
+
+// export default App;
+
+function App() {
   useEffect(() => {
     Amplify.configure({
       Auth: {
@@ -15,17 +42,26 @@ const App = () => {
       },
     });
   });
-
-  return (
+  return (<Router>
     <div className="App">
       <header className="App-header">
         <h1>Profile Management</h1>
         <h2>Authentication for Profile Management using AWS Cognito</h2>
-      </header>
-      <SignUp />
-      <SignIn />
-    </div>
+       </header>
+
+
+      <div className="auth-wrapper">
+        <div className="auth-inner">
+          <Switch>
+            <Route exact path='/' component={SignUp} />
+            <Route path="/sign-in" component={SignIn} />
+            <Route path="/sign-up" component={SignUp} />
+          </Switch>
+        </div>
+      </div>
+    </div></Router>
   );
-};
+}
 
 export default App;
+

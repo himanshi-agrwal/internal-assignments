@@ -52,65 +52,46 @@ const SignUp = () => {
 
   return (
     <div className="form">
-      <h3>Sign Up</h3>
       {!waitingForCode && (
-        <form>
-          <FormElement label="Email" forId="sign-up-email">
-            <input
-              id="sign-up-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="email"
-            />
-          </FormElement>
-          <FormElement label="Password" forId="sign-up-email">
-            <input
-              id="sign-up-password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="password"
-            />
-          </FormElement>
-          <FormElement label="First Name" forId="sign-up-email">
-            <input
-              id="sign-up-first-name"
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First name"
-            />
-          </FormElement>
-          <FormElement label="Last Name" forId="sign-up-email">
-            <input
-              id="sign-up-last-name"
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last name"
-            />
-          </FormElement>
-          <button type="submit" onClick={signUp}>
-            Sign Up
-          </button>
+            <form>
+            <h3>Sign Up</h3>
+            <div className="form-group">
+                <label>First name</label>
+                <input type="text" className="form-control" placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
+            </div>
+
+            <div className="form-group">
+                <label>Last name</label>
+                <input type="text" className="form-control" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
+            </div>
+
+            <div className="form-group">
+                <label>Email address</label>
+                <input type="email" className="form-control" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+            </div>
+
+            <div className="form-group">
+                <label>Password</label>
+                <input type="password" className="form-control" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            </div>
+
+            <button type="submit" className="btn btn-primary btn-block" onClick={signUp}>Sign Up</button>
+            <p className="forgot-password text-right">
+                Already registered <a href="/sign-in">Sign In?</a>
+            </p>
         </form>
+
       )}
       {waitingForCode && (
         <form>
-          <FormElement label="Confirmation Code" forId="sign-up-code">
-            <input
-              id="sign-up-code"
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="code"
-            />
-          </FormElement>
-          <button type="submit" onClick={confirmSignUp}>
+            <div className="form-group">
+                <label>Code</label>
+                <input type="text" className="form-control" placeholder="Enter code" value={code} onChange={(e) => setCode(e.target.value)}/>
+            </div>
+            <button type="submit" className="btn btn-primary btn-block" onClick={confirmSignUp}>
             Confirm Sign Up
           </button>
-          <button type="button" onClick={resendCode}>
+          <button type="button" className="btn btn-primary btn-block" onClick={resendCode}>
             Resend code
           </button>
         </form>
