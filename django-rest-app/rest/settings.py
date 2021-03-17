@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-
     'rest.app.user',
     'rest.app.profile',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'rest.urls'
@@ -175,3 +176,4 @@ REST_FRAMEWORK = {
 COGNITO_AWS_REGION = 'ap-south-1'
 COGNITO_USER_POOL = 'ap-south-1_pFrT0zeWI'
 COGNITO_AUDIENCE = '5gpkkdfponcttjmb5dem9nv8l0'
+CORS_ORIGIN_ALLOW_ALL = True

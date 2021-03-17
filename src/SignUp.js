@@ -7,8 +7,13 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("9999999999");
+  const [age, setAge] = useState(10);
+  const [gender, setGender] = useState("M");
   const [waitingForCode, setWaitingForCode] = useState(false);
   const [code, setCode] = useState("");
+  const [cognitoID, setCognitoID] = useState("");
+  const [idToken, setIdToken] = useState("");
 
   const signUp = (e) => {
     e.preventDefault();
@@ -18,7 +23,8 @@ const SignUp = () => {
       .then((data) => {
         console.log(data);
         setWaitingForCode(true);
-        setPassword("");
+        setCognitoID(data["userSub"]);
+        // setPassword("");
       })
       .catch((err) => {
         console.log(err);
@@ -32,7 +38,9 @@ const SignUp = () => {
       .then((data) => {
         console.log(data);
         setWaitingForCode(false);
+        saveToDjango();
         setEmail("");
+        setPassword("");
         setFirstName("");
         setLastName("");
         setCode("");
@@ -49,7 +57,28 @@ const SignUp = () => {
         console.log(e);
       });
   };
-
+  const saveToDjango = () => {
+    fetch("http://localhost:8000/api/signup",{
+      method: 'POST',
+      body: JSON.stringify({
+        email:email,
+        password: password,
+        cognito_id: cognitoID,
+        profile: {
+                first_name : firstName,
+                last_name: lastName,
+                phone_number: phoneNumber,
+                age: age,
+                gender: gender
+        }
+      }),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    }).then((data) => {console.log(data)})
+      .catch((e) => {console.log(e)});
+  };
+  
   return (
     <div className="form">
       {!waitingForCode && (
