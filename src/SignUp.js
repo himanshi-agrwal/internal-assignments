@@ -7,9 +7,9 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("9999999999");
-  const [age, setAge] = useState(10);
-  const [gender, setGender] = useState("M");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
   const [waitingForCode, setWaitingForCode] = useState(false);
   const [code, setCode] = useState("");
   const [cognitoID, setCognitoID] = useState("");
@@ -103,7 +103,18 @@ const SignUp = () => {
                 <label>Password</label>
                 <input type="password" className="form-control" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)}/>
             </div>
-
+            <div className="form-group">
+                <label>Phone Number</label>
+                <input type="text" className="form-control" placeholder="Enter Phone No." value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>
+            </div>
+            <div className="form-group">
+                <label>Age</label>
+                <input type="text" className="form-control" placeholder="Enter Age" value={age} onChange={(e) => setAge(e.target.value)}/>
+            </div>
+            <div className="form-group">
+                <label>Gender</label>
+                <input type="text" className="form-control" placeholder="Enter Gender" value={gender} onChange={(e) => setGender(e.target.value)}/>
+            </div>
             <button type="submit" className="btn btn-primary btn-block" onClick={signUp}>Sign Up</button>
             <p className="forgot-password text-right">
                 Already registered <a href="/sign-in">Sign In?</a>
