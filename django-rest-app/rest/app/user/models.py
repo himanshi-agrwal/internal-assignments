@@ -5,6 +5,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.db import IntegrityError
 
 
 class UserManager(BaseUserManager):
@@ -42,6 +43,7 @@ class UserManager(BaseUserManager):
 
 
     def get_or_create_for_cognito(self, payload):
+        print(payload)
         cognito_id = payload['sub']
 
         try:
@@ -52,6 +54,8 @@ class UserManager(BaseUserManager):
         try:
             email = payload.get('email', None)
             password = payload.get('password', None)
+            try:
+                user = User.objects.get(email=email)
             # last_names = [
             #     payload.get('middle_name', None),
             #     payload.get('family_name', None)
@@ -64,7 +68,8 @@ class UserManager(BaseUserManager):
             #     is_active=True,
             #     first_name=first_name,
             #     last_name=last_name)
-            user = self.create_user(email, password, cognito_id)
+            except:
+                user = self.create_user(email, password, cognito_id)
 
         except IntegrityError:
             user = self.get(cognito_id=cognito_id)

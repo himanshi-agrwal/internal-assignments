@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import FormElement from "./FormElement";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +12,6 @@ const SignUp = () => {
   const [waitingForCode, setWaitingForCode] = useState(false);
   const [code, setCode] = useState("");
   const [cognitoID, setCognitoID] = useState("");
-  const [idToken, setIdToken] = useState("");
 
   const signUp = (e) => {
     e.preventDefault();
@@ -44,6 +42,9 @@ const SignUp = () => {
         setFirstName("");
         setLastName("");
         setCode("");
+        setPhoneNumber("");
+        setAge("");
+        setGender("");
       })
       .catch((err) => console.log(err));
   };

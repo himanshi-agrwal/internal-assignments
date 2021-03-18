@@ -17,7 +17,9 @@ class UserProfileView(RetrieveAPIView):
 
     def get(self, request):
         try:
-            user_profile = UserProfile.objects.get(user=request.user)
+            
+            user_profile, created = list(UserProfile.objects.get_or_create(user=request.user))
+
             status_code = status.HTTP_200_OK
             response = {
                 'success': 'true',
@@ -31,6 +33,7 @@ class UserProfileView(RetrieveAPIView):
                     'gender': user_profile.gender,
                     }]
                 }
+            print(response)
 
         except Exception as e:
             status_code = status.HTTP_400_BAD_REQUEST
@@ -41,3 +44,4 @@ class UserProfileView(RetrieveAPIView):
                 'error': str(e)
                 }
         return Response(response, status=status_code)
+
