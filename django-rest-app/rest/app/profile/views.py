@@ -17,7 +17,7 @@ class UserProfileView(RetrieveAPIView):
 
     def get(self, request):
         try:
-            
+
             user_profile, created = list(UserProfile.objects.get_or_create(user=request.user))
 
             status_code = status.HTTP_200_OK
