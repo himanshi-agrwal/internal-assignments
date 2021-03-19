@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
+import profile from "./profile.js";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [data, setData] = useState([]);
+  const [redirect, setRedirect] = useState(false);
 
   const signIn = (e) => {
     e.preventDefault();
@@ -29,9 +33,16 @@ const SignIn = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}` ,
       }
-    }).then((data) => {console.log(data)})
+    }).then(data => data.json())
+      .then((data) => {
+      console.log(data);
+      setData(data["data"][0]);
+      setRedirect(true);
+    })
       .catch((e) => {console.log(e)});
-  };
+    };
+  if (redirect)
+    return <Redirect to={{ pathname: '/profile', data: { data } }} />
 
   return (
     <div className="form">

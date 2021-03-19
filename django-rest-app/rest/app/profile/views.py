@@ -22,7 +22,6 @@ class UserProfileView(RetrieveAPIView):
 
             status_code = status.HTTP_200_OK
             response = {
-                'success': 'true',
                 'status code': status_code,
                 'message': 'User profile fetched successfully',
                 'data': [{
@@ -31,6 +30,7 @@ class UserProfileView(RetrieveAPIView):
                     'phone_number': user_profile.phone_number,
                     'age': user_profile.age,
                     'gender': user_profile.gender,
+                    'email': user_profile.user.email,
                     }]
                 }
             print(response)
