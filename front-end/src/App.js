@@ -28,13 +28,12 @@ function App(props) {
       : window.location.pathname;
     if (token) {
       utils.fetchData().then((data) => {
-        console.log(data);
-        setLoading(false);
         if (data.status == 200) {
           history.push({ pathname: "/profile", state: { data: data.data } });
         } else {
           history.push(publicRedirectPath);
         }
+        setLoading(false);
       });
     } else {
       setLoading(false);

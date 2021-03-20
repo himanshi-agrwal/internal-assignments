@@ -4,7 +4,6 @@ import EditableField from "./EditableField";
 import util from "./util";
 
 const Profile = ({ location, history }) => {
-  console.log("inside profile");
   const [data, setData] = useState(location.state.data);
   const [currentData, setCurrentData] = useState(location.state.data);
   const [selectedFile, setFile] = useState(null);

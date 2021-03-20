@@ -21,27 +21,9 @@ const fetchData = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    // result = await result.json();
     data["status"] = result.status;
     data["data"] = result.data.data;
     return data
-    // .then(data => data.json())
-    //   .then((data) => {
-    //   console.log(data);
-    //   if(data.detail && data.detail == "Incorrect authentication credentials."){
-    //     const tokenKey = localStorage.getItem('tokenKey');
-    //     removeToken();
-    //   }
-    //   else{
-    //     history.push({pathname: '/profile', state: { data: data.data }})
-    //   }
-    //   console.log("then block");
-    // }).catch((e) => {
-    //     console.error(e);
-    //     console.log("hgfytfdyt");
-    //     const tokenKey = localStorage.getItem('tokenKey');
-    //     removeToken();
-    //   });
   } catch (err) {
     console.error(err);
     data["status"] = err.response.status

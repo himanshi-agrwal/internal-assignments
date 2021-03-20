@@ -21,7 +21,6 @@ const SignUp = ({history}) => {
     Auth.signUp({ username: email, password, 
         attributes: { email, 'custom:firstName': firstName, 'custom:lastName': lastName } })
       .then((data) => {
-        console.log(data);
         setWaitingForCode(true);
         setCognitoID(data["userSub"]);
         // setPassword("");
