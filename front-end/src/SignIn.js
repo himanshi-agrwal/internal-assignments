@@ -1,54 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Auth } from "aws-amplify";
-import profile from "./profile.js";
+import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-const SignIn = () => {
+import {Spinner} from "react-bootstrap";
+import util from "./util.js";
+
+const SignIn = ({history, location}) => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [data, setData] = useState([]);
-  const [redirect, setRedirect] = useState(false);
+  const [loading, setLoader] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const signIn = (e) => {
     e.preventDefault();
-
+    setErrorMessage("");
     Auth.signIn({
       username: email,
       password,
     })
       .then((user) => {
-        // setIdToken(user["signInUserSession"]["idToken"]["jwtToken"]);
-        fetchData(user["signInUserSession"]["idToken"]["jwtToken"]);
-        setEmail("");
-        setPassword("");
-        console.log(user);
+        const token = user["signInUserSession"]["idToken"]["jwtToken"]
+        const tokenKey = `t_${email}`
+        localStorage.setItem('tokenKey', tokenKey);
+        localStorage.setItem(tokenKey, token);
+        util.fetchData().then(data => {
+          if(data.status == 200){ 
+            setEmail("");
+            setPassword("");
+            history.push({pathname: "/profile", state:{data: data.data}});
+          }
+          else{
+            setErrorMessage(data.data)
+          }
+        });
       })
       .catch((err) => {
         console.log(err);
+        setErrorMessage(err.message);
       });
   };
-  const fetchData = (token) => {
-    fetch("http://localhost:8000/api/profile",{
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` ,
-      }
-    }).then(data => data.json())
-      .then((data) => {
-      console.log(data);
-      setData(data["data"][0]);
-      setRedirect(true);
-    })
-      .catch((e) => {console.log(e)});
-    };
-  if (redirect)
-    return <Redirect to={{ pathname: '/profile', data: { data } }} />
-
   return (
     <div className="form">
         <form>
                 <h3>Sign In</h3>
-
                 <div className="form-group">
                     <label>Email address</label>
                     <input type="email" className="form-control" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)}/>
@@ -60,11 +55,11 @@ const SignIn = () => {
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-block" onClick={signIn}>Submit</button>
+                {errorMessage && <p className="errorMsg">{errorMessage}</p>}
                 <p className="forgot-password text-right">
-                    Not registered <a href="/sign-up">Sign Up?</a>
+                    Not registered <Link to="/sign-up">Sign Up?</Link>
                 </p>
-            </form>
-
+        </form>
     </div>
   );
 };

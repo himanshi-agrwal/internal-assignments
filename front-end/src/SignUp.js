@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 
-const SignUp = () => {
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+
+const SignUp = ({history}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -76,7 +78,10 @@ const SignUp = () => {
       headers: {
           'Content-Type': 'application/json'
       }
-    }).then((data) => {console.log(data)})
+    }).then((data) => {
+      console.log(data)
+      history.push("/");
+    })
       .catch((e) => {console.log(e)});
   };
   
@@ -110,7 +115,7 @@ const SignUp = () => {
             </div>
             <div className="form-group">
                 <label>Age</label>
-                <input type="text" className="form-control" placeholder="Enter Age" value={age} onChange={(e) => setAge(e.target.value)}/>
+                <input type="number" className="form-control" placeholder="Enter Age" value={age} onChange={(e) => setAge(e.target.value)}/>
             </div>
             <div className="form-group">
                 <label>Gender</label>
@@ -118,7 +123,7 @@ const SignUp = () => {
             </div>
             <button type="submit" className="btn btn-primary btn-block" onClick={signUp}>Sign Up</button>
             <p className="forgot-password text-right">
-                Already registered <a href="/sign-in">Sign In?</a>
+                Already registered? <Link to="/">Sign In</Link>
             </p>
         </form>
 

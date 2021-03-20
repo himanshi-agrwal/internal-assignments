@@ -24,14 +24,14 @@ class UserProfileView(RetrieveAPIView):
             response = {
                 'status code': status_code,
                 'message': 'User profile fetched successfully',
-                'data': [{
+                'data': {
                     'first_name': user_profile.first_name,
                     'last_name': user_profile.last_name,
                     'phone_number': user_profile.phone_number,
                     'age': user_profile.age,
                     'gender': user_profile.gender,
                     'email': user_profile.user.email,
-                    }]
+                    }
                 }
             print(response)
 
