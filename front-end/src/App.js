@@ -28,7 +28,7 @@ function App(props) {
       : window.location.pathname;
     if (token) {
       utils.fetchData().then((data) => {
-        if (data.status == 200) {
+        if (data.status === 200) {
           history.push({ pathname: "/profile", state: { data: data.data } });
         } else {
           history.push(publicRedirectPath);

@@ -23,16 +23,17 @@ const fetchData = async () => {
     });
     data["status"] = result.status;
     data["data"] = result.data.data;
-    return data
+    return data;
   } catch (err) {
     console.error(err);
-    data["status"] = err.response.status
-    data["data"] = err.response.data && (err.response.data.detail || "Invalid token")
-    console.log({err:err.response})
-    const tokenKey = localStorage.getItem("tokenKey");
+    data["status"] = err.response.status;
+    data["data"] =
+      err.response.data && (err.response.data.detail || "Invalid token");
+    console.log({ err: err.response });
+    // const tokenKey = localStorage.getItem("tokenKey");
     removeToken();
-    return data
-  } 
+    return data;
+  }
 };
 
 export default { getToken, removeToken, fetchData };

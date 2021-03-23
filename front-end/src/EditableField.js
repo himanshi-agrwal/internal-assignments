@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./EditableField.css";
 const fieldLabelMap = {
     "first_name" : "First Name",

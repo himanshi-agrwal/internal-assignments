@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import axios from 'axios';
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import {Spinner} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import util from "./util.js";
 
 const SignIn = ({history, location}) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const signIn = (e) => {
@@ -25,7 +22,7 @@ const SignIn = ({history, location}) => {
         localStorage.setItem('tokenKey', tokenKey);
         localStorage.setItem(tokenKey, token);
         util.fetchData().then(data => {
-          if(data.status == 200){ 
+          if(data.status === 200){ 
             setEmail("");
             setPassword("");
             history.push({pathname: "/profile", state:{data: data.data}});

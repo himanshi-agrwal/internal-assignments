@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import EditableField from "./EditableField";
 import util from "./util";
@@ -18,29 +18,26 @@ const Profile = ({ location, history }) => {
     console.log(selectedFile);
     //   axios.post("api/uploadfile", formData);
   };
-  const saveData = () => {
-    fetch("http://localhost:8000/api/profile", {
-      method: "POST",
-      body: JSON.stringify({
-        email: "email",
-        // profile: {
-        //         first_name : firstName,
-        //         last_name: lastName,
-        //         phone_number: phoneNumber,
-        //         age: age,
-        //         gender: gender
-        // }
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+  const saveData = async () => {
+    const token = util.getToken();
+    let sendData = JSON.stringify({
+      profile: data,
     })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((e) => {
-        console.log(e);
+    try {
+      const result = await axios.put(`http://localhost:8000/api/profile/${data.id}/`,sendData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
+      setCurrentData(result.data);
+      setData(result.data);
+      setIsEditable(!isEditable);
+    } catch (err) {
+      console.error(err);
+      console.log({ err: err.response });
+    }
+
   };
   const handleFieldChange = (e, fieldName) => {
     setData({ ...data, [fieldName]: e.target.value });
@@ -122,7 +119,7 @@ const Profile = ({ location, history }) => {
           Upload
         </button>
       </div>
-      <button
+      <button disabled={!isEditable}
         type="submit"
         className="btn btn-primary btn-block"
         style={{ marginTop: "24px" }}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SignUp = ({history}) => {
   const [email, setEmail] = useState("");
