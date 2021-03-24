@@ -5,20 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import * as serviceWorker from "./serviceWorker";
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
-// // If you want to start measuring performance in your app, pass a function
-// // to log results (for example: reportWebVitals(console.log))
-// // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
-
+import S3 from "aws-sdk/clients/s3";
+import { Credentials } from "aws-sdk";
+import { v4 as uuid } from "uuid";
 
 ReactDOM.render(
     <BrowserRouter>

@@ -50,8 +50,7 @@ function App(props) {
     <Router history={history}>
       <div className="App">
         <header className="App-header">
-          <h1>Profile Management</h1>
-          <h2>Authentication for Profile Management using AWS Cognito</h2>
+          <h2>Signup, Login and Profile Management System using AWS Cognito</h2>
         </header>
         <div className="auth-wrapper">
           <div className="auth-inner">
