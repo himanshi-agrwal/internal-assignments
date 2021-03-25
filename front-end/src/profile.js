@@ -12,24 +12,71 @@ const Profile = ({ location, history }) => {
   const onFileChange = (e) => {
     setFile(e.target.files[0]);
   };
-  const onFileUpload = () => {
+  const onFileUpload = async () => {
+    const presignedPostData ={}
+    try{
+      const result = await axios
+      .post(
+        "http://localhost:8000/api/upload-image",
+        { object: selectedFile.name },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${util.getToken()}`,
+          },
+        }
+      )
+      console.log(result)
+      presignedPostData["status"] = result.status;
+      presignedPostData["data"] = result.data;
+      uploadFileToS3(presignedPostData["data"])
+    }
+    catch (err) {
+      console.error(err);
+      data["status"] = err.response.status;
+      data["data"] =
+        err.response.data && (err.response.data.detail || "Invalid token");
+      console.log({ err: err.response });
+      // const tokenKey = localStorage.getItem("tokenKey");
+      // removeToken();
+      return data;
+    }
+  };
+  const uploadFileToS3 = (presignedPostData) => {
     const formData = new FormData();
-    formData.append("myFile", selectedFile, selectedFile.name);
-    console.log(selectedFile);
-    //   axios.post("api/uploadfile", formData);
+    Object.keys(presignedPostData.fields).forEach((key) => {
+      formData.append(key, presignedPostData.fields[key]);
+    });
+    formData.append("file", selectedFile.src);
+    axios
+      .post(presignedPostData.url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const saveData = async () => {
     const token = util.getToken();
     let sendData = JSON.stringify({
       profile: data,
-    })
+    });
     try {
-      const result = await axios.put(`http://localhost:8000/api/profile/${data.id}/`,sendData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const result = await axios.put(
+        `http://localhost:8000/api/profile/${data.id}/`,
+        sendData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setCurrentData(result.data);
       setData(result.data);
       setIsEditable(!isEditable);
@@ -37,7 +84,6 @@ const Profile = ({ location, history }) => {
       console.error(err);
       console.log({ err: err.response });
     }
-
   };
   const handleFieldChange = (e, fieldName) => {
     setData({ ...data, [fieldName]: e.target.value });
@@ -95,7 +141,7 @@ const Profile = ({ location, history }) => {
       />
       <EditableField
         fieldName="gender"
-        fieldType="text"
+        fieldType="select"
         value={data.gender}
         handleChange={handleFieldChange}
         isEditable={isEditable}
@@ -119,7 +165,8 @@ const Profile = ({ location, history }) => {
           Upload
         </button>
       </div>
-      <button disabled={!isEditable}
+      <button
+        disabled={!isEditable}
         type="submit"
         className="btn btn-primary btn-block"
         style={{ marginTop: "24px" }}
